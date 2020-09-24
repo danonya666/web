@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="main_wrapper">
+    <header>
+        <h1 class="header_title">Погода здесь</h1>
+        <button class="header_refresh_fullscreen">
+            Обновить геолокацию
+        </button>
+        <button class="header_refresh_mobile">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Refresh_icon.svg/1200px-Refresh_icon.svg.png"
+                 alt="refresh"
+                class="header_refresh_mobile_image">
+        </button>
+        <div></div>
+    </header>
+    <div class="important_block">
+        <div class="important_block_left">
+            <div class="main_city">
+                <h2>
+                    Санкт-Петербург
+                </h2>
+                <div class="main_city_flex">
+                    <img src="https://icons-for-free.com/iconfiles/png/512/cloud+day+forecast+lightning+shine+storm+sun+weather+icon-1320183295537909806.png"
+                         class="main_city__icon" alt="weather icon"/>
+                    <div class="main_city__temperature">
+                        -14°C
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="important_block_right">
+            <div class="weather_info_block">
+                <div class="weather_row">
+                    <div class="weather_row_title">Ветер</div>
+                    <div class="weather_row_text">55 m/s</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Облачность</div>
+                    <div class="weather_row_text">Трам-пам</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Давление</div>
+                    <div class="weather_row_text">Трам-пам</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Влажность</div>
+                    <div class="weather_row_text">Трам-пам</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Координаты</div>
+                    <div class="weather_row_text">Трам-пам</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="city_search_block mt-1rem">
+        <h3>
+            Избранное
+        </h3>
+        <div class="city_search_form">
+            <div class="input_main__form-input mr-1rem">
+                <input type="text" placeholder="Добавить новый город">
+            </div>
+            <div class="city_search_form-btn">
+                +
+            </div>
+        </div>
+    </div>
+    <div class="main_block_wrapper">
+        <div class="weather_info_block mt-2rem">
+            <div class="city">
+                <h4>
+                    Москва
+                </h4>
+                <div class="city_temperature">
+                    +5°
+                </div>
+                <img src="https://cdn0.iconfinder.com/data/icons/good-weather-1/96/weather_icons-48-512.png"
+                     class="city_extra__icon" alt="weather icon"/>
+                <div class="city_remove">
+                    ✖
+                </div>
+            </div>
+            <div class="weather_info_block">
+                <div class="weather_row">
+                    <div class="weather_row_title">Wind</div>
+                    <div class="weather_row_text">Very windy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Cloudiness</div>
+                    <div class="weather_row_text">Very cloudy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Pressure</div>
+                    <div class="weather_row_text">No pressure</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Humidity</div>
+                    <div class="weather_row_text">50%</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Coordinates</div>
+                    <div class="weather_row_text">69.14 88.12</div>
+                </div>
+            </div>
+        </div>
+        <div class="weather_info_block mt-2rem">
+            <div class="city">
+                <h4>
+                    Самара
+                </h4>
+                <div class="city_temperature">
+                    +33°
+                </div>
+                <img src="https://www.iconfinder.com/data/icons/weather-129/64/weather-5-512.png"
+                     class="city_extra__icon" alt="weather icon"/>
+                <div class="city_remove">
+                    ✖
+                </div>
+            </div>
+            <div class="stats">
+                <div class="weather_row">
+                    <div class="weather_row_title">Wind</div>
+                    <div class="weather_row_text">Very windy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Cloudiness</div>
+                    <div class="weather_row_text">Very cloudy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Pressure</div>
+                    <div class="weather_row_text">No pressure</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Humidity</div>
+                    <div class="weather_row_text">50%</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Coordinates</div>
+                    <div class="weather_row_text">69.14 88.12</div>
+                </div>
+            </div>
+        </div>
+        <div class="weather_info_block mt-2rem">
+            <div class="city">
+                <h4>
+                    Вологда
+                </h4>
+                <div class="city_temperature">
+                    -3°
+                </div>
+                <img src="https://www.flaticon.com/svg/static/icons/svg/17/17785.svg" class="city_extra__icon"
+                     alt="weather icon"/>
+                <div class="city_remove">
+                    ✖
+                </div>
+            </div>
+            <div class="stats">
+                <div class="weather_row">
+                    <div class="weather_row_title">Wind</div>
+                    <div class="weather_row_text">Very windy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Cloudiness</div>
+                    <div class="weather_row_text">Very cloudy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Pressure</div>
+                    <div class="weather_row_text">No pressure</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Humidity</div>
+                    <div class="weather_row_text">50%</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Coordinates</div>
+                    <div class="weather_row_text">69.14 88.12</div>
+                </div>
+            </div>
+        </div>
+        <div class="weather_info_block mt-2rem">
+            <div class="city">
+                <h4>
+                    Гданьск
+                </h4>
+                <div class="city_temperature">
+                    +7°
+                </div>
+                <img src="https://icons-for-free.com/iconfiles/png/512/sunny+temperature+weather+icon-1320196637430890623.png"
+                     class="city_extra__icon" alt="weather icon"/>
+                <div class="city_remove">
+                    ✖
+                </div>
+            </div>
+            <div class="stats">
+                <div class="weather_row">
+                    <div class="weather_row_title">Wind</div>
+                    <div class="weather_row_text">Very windy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Cloudiness</div>
+                    <div class="weather_row_text">Very cloudy</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Pressure</div>
+                    <div class="weather_row_text">No pressure</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Humidity</div>
+                    <div class="weather_row_text">50%</div>
+                </div>
+                <div class="weather_row">
+                    <div class="weather_row_title">Coordinates</div>
+                    <div class="weather_row_text">69.14 88.12</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
