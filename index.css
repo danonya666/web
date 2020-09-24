@@ -166,10 +166,6 @@ header {
         justify-content: flex-start;
     }
 
-    .input_main__form-input > input[type=text] {
-        padding: 0 120px 0 10px;
-
-    }
 }
 
 
@@ -229,8 +225,19 @@ body {
         border-width: 0;
         border-radius: 5px;
     }
+
+    .input_main__form-input>input[type=text] {
+        width: 70vw;
+    }
+
 }
 
+@media only screen and (max-width: 500px) {
+
+    .main_city__temperature {
+        font-size: 80px;
+    }
+}
 @media only screen and (min-width: 1101px) {
     .header_refresh_mobile {
         display: none;
@@ -252,6 +259,7 @@ h2 {
 
 h3 {
     font-size: 36px;
+    padding-bottom: 30px;
 }
 
 h4 {
