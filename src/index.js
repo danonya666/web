@@ -105,7 +105,6 @@ function param(title, value) {
 
 const api = new Api()
 
-/*LS*/
 function saveCityToLS(id) {
     let data = JSON.parse(localStorage.getItem('cities') || '[]')
     data.push(id)
@@ -117,9 +116,6 @@ function removeCityFromLS(id) {
     localStorage.setItem('cities', JSON.stringify(data.filter(_ => parseInt(_, 10) !== parseInt(id, 10))))
 }
 
-/*END-LS*/
-
-/*MAPPERS*/
 function weatherMapper(obj) {
     console.log(obj)
     const {main, name, wind, coord, id} = obj
@@ -147,7 +143,7 @@ function renderStats(stats) {
     return stats.map(({title, value}) =>fillTemplate(statsTemplate.innerHTML, {title, value})).join('')
 }
 
-function renderBlockMain() {
+function renderMain() {
     importantBlock.innerHTML = ""
     const values = {
         loading: state.current.loading ? renderLoader() : '',
@@ -161,7 +157,7 @@ function renderBlockMain() {
     importantBlock.appendChild(nodeImported)
 }
 
-function renderBlocksExtra() {
+function renderExtra() {
     blockWrapper.innerHTML = ""
     console.log('rendering extra');
     state.starred.forEach(loc => {
@@ -214,17 +210,14 @@ async function initCurrentPosition() {
     }
 }
 
-async function initFromLs() {
+async function initFromLocalStorage() {
     const lsData = JSON.parse(localStorage.getItem('cities') || '[]')
     if (lsData.length === 0) return
     const {list} = await api.weatherByIds(lsData)
     state.starred = [...state.starred, ...list.map(_ => weatherMapper(_))]
 }
 
-/*END-INIT*/
-
-/*HANDLERS*/
-async function onBtnAddClick(e) {
+async function onAdd(e) {
     e.preventDefault()
     const val = addNewCity.value
     addNewCity.disabled = true
@@ -261,16 +254,12 @@ function onBtnRemoveClick(id) {
 
 /*END-HANDLERS*/
 
-async function mainFunc() {
-    document.querySelector('#add-city-form').addEventListener('submit', onBtnAddClick)
-    addListener('current', renderBlockMain)
-    addListener('starred', renderBlocksExtra)
+async function main() {
+    document.querySelector('#add-city-form').addEventListener('submit', onAdd)
+    addListener('current', renderMain)
+    addListener('starred', renderExtra)
     initCurrentPosition()
-    initFromLs()
+    initFromLocalStorage()
 }
 
-mainFunc()
-
-
-// input 100% на мобильную верстку
-// submit on enter input
+main()
