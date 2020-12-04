@@ -38,7 +38,6 @@ class Api {
 
     weatherByString(str) {
         const result = fetchWeatherGet(`${this.endpoint}/weather?q=${encodeURIComponent(str)}&units=metric`)
-        console.log('res ' + result)
         return result;
     }
 
@@ -117,7 +116,6 @@ function removeCityFromLS(id) {
 }
 
 function weatherMapper(obj) {
-    console.log(obj)
     const {main, name, wind, coord, id} = obj
 
     return {
@@ -159,9 +157,7 @@ function renderMain() {
 
 function renderExtra() {
     blockWrapper.innerHTML = ""
-    console.log('rendering extra');
     state.starred.forEach(loc => {
-        console.log('loc', loc);
         const values = {
             loading: loc.loading ? renderLoader() : '',
             title: loc.title,
@@ -175,15 +171,12 @@ function renderExtra() {
         blockWrapper.appendChild(nodeImported)
     });
     [...document.querySelectorAll('.city_remove')].forEach(it => {
-        console.log('itit')
         it.addEventListener('click', () => {
-            console.log(it)
             const id = it.getAttribute('data-id')
             if (!id) return
             onBtnRemoveClick(id)
         })
     })
-    console.log('added listener')
 }
 async function initCurrentPosition() {
     state.current = {
@@ -225,7 +218,6 @@ async function onAdd(e) {
     try {
         state.starred = [...state.starred, {loading: true}]
         const data = await api.weatherByString(val)
-        console.log('data: ', data);
         if (data.cod === '404')
             throw new Error('not found')
         state.starred.pop()
@@ -235,19 +227,16 @@ async function onAdd(e) {
         if (state.starred.map(_ => _.id).includes(data.id)) return alert('Такой город уже есть!')
         saveCityToLS(data.id)
         state.starred = [...state.starred, weatherMapper(data)]
-        console.log('current state: ', state);
     } catch (err) {
         state.starred.pop()
         state.starred = [...state.starred]
-        alert('Ошибочка(')
-        console.error(err)
+        alert('Сайт не найден')
     }
     addNewCity.disabled = false
     addNewCity.value = ''
 }
 
 function onBtnRemoveClick(id) {
-    console.log(id)
     state.starred = state.starred.filter(_ => _.id !== parseInt(id, 10))
     removeCityFromLS(id)
 }
