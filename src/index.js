@@ -16,7 +16,7 @@ function fillTemplate(template, values) {
 
 const fetchWeatherGet = async (url) => fetch(`${url}&appid=${apikey}`).then(res => res.json())
 
-function getCardinal(angle) {
+function getDirection(angle) {
     const degreePerDirection = 360 / 8;
 
     const offsetAngle = angle + degreePerDirection / 2;
@@ -98,7 +98,7 @@ function addListener(prop, handler) {
         updateListeners[prop] = [handler]
 }
 
-function param(title, value) {
+function toObj(title, value) {
     return {title, value}
 }
 
@@ -123,11 +123,11 @@ function weatherMapper(obj) {
         title: name,
         temp: Math.round(main.temp),
         params: [
-            param('Влажность', main.humidity + '%'),
-            param('Давление', main.pressure + ' гПа'),
-            param('Ветер м/с', wind.speed + ' м/с'),
-            param('Ветер (направление)', getCardinal(wind.angle)),
-            param('Координаты', Object.values(coord).join(',')),
+            toObj('Влажность', main.humidity + '%'),
+            toObj('Давление', main.pressure + ' гПа'),
+            toObj('Ветер м/с', wind.speed + ' м/с'),
+            toObj('Ветер (направление)', getDirection(wind.angle)),
+            toObj('Координаты', Object.values(coord).join(',')),
         ],
     }
 }
