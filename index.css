@@ -3,12 +3,8 @@
     justify-content: space-between;
 }
 
-.float_right {
-    margin-left: auto;
-}
 
 .important_block_right {
-    /*flex: 1;*/
     width: calc(50% - 25px);
 }
 
@@ -140,7 +136,6 @@ header {
     height: 55px;
     padding: 0 45px 0 10px;
     border-radius: 5px;
-    /*flex: 0 50;*/
     width: 440px;
 }
 

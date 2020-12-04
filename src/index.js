@@ -1,4 +1,4 @@
-const apikey = 'd1b9e4aebf1311c3832b4a366dfe8604'
+const apikey = 'bf1e6f31df3365677ca42ccb686d0da8'
 
 const importantBlock = document.querySelector('.important_block')
 const blockWrapper = document.querySelector('.block_wrapper')
