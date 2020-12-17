@@ -14,8 +14,6 @@ function fillTemplate(template, values) {
     });
 }
 
-const fetchWeatherGet = async (url) => fetch(`${url}&appid=${apikey}`).then(res => res.json())
-
 function getDirection(angle) {
     const degreePerDirection = 360 / 8;
 
@@ -33,24 +31,49 @@ function getDirection(angle) {
 
 class Api {
     constructor() {
-        this.endpoint = 'https://api.openweathermap.org/data/2.5'
+        this.endpoint = 'http://localhost:3000'
     }
 
     weatherByString(str) {
-        const result = fetchWeatherGet(`${this.endpoint}/weather?q=${encodeURIComponent(str)}&units=metric`)
-        return result;
+        return fetch(`${this.endpoint}/weather/city?q=${encodeURIComponent(str)}`).then(res => res.json())
     }
 
     weatherById(id) {
-        return fetchWeatherGet(`${this.endpoint}/weather?id=${encodeURIComponent(id)}&units=metric`)
-    }
-
-    weatherByIds(ids) {
-        return fetchWeatherGet(`${this.endpoint}/group?id=${encodeURIComponent(ids.join(','))}&units=metric`)
+        return fetch(`${this.endpoint}/weather/city?id=${encodeURIComponent(id)}`).then(res => res.json())
     }
 
     weatherByLatLon({latitude, longitude}) {
-        return fetchWeatherGet(`${this.endpoint}/weather?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}&units=metric`)
+        return fetch(`${this.endpoint}/weather/coordinates?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`).then(res => res.json())
+    }
+
+    saveFavorite(id) {
+        return fetch(`${this.endpoint}/favorites`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id
+            })
+        })
+    }
+
+    getFavorites() {
+        return fetch(`${this.endpoint}/favorites`).then(res => res.json())
+    }
+
+    removeFavorite(id) {
+        return fetch(`${this.endpoint}/favorites`, {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id
+            })
+        }).then(res => res.json())
     }
 }
 
@@ -104,16 +127,6 @@ function toObj(title, value) {
 
 const api = new Api()
 
-function saveCityToLS(id) {
-    let data = JSON.parse(localStorage.getItem('cities') || '[]')
-    data.push(id)
-    localStorage.setItem('cities', JSON.stringify(data))
-}
-
-function removeCityFromLS(id) {
-    let data = JSON.parse(localStorage.getItem('cities') || '[]')
-    localStorage.setItem('cities', JSON.stringify(data.filter(_ => parseInt(_, 10) !== parseInt(id, 10))))
-}
 
 function weatherMapper(obj) {
     const {main, name, wind, coord, id} = obj
@@ -134,6 +147,11 @@ function weatherMapper(obj) {
 
 function renderLoader() {
     return loadingTemplate.innerHTML
+}
+
+async function loadFavorites() {
+    const {list} = await api.getFavorites()
+    state.starred = [...state.starred, ...list.map(_ => weatherMapper(_))]
 }
 
 function renderStats(stats) {
@@ -203,16 +221,13 @@ async function initCurrentPosition() {
     }
 }
 
-async function initFromLocalStorage() {
-    const lsData = JSON.parse(localStorage.getItem('cities') || '[]')
-    if (lsData.length === 0) return
-    const {list} = await api.weatherByIds(lsData)
-    state.starred = [...state.starred, ...list.map(_ => weatherMapper(_))]
-}
-
 async function onAdd(e) {
     e.preventDefault()
-    const val = addNewCity.value
+    const val = addNewCity.value;
+    if (!val) {
+        alert('Введите какой-нибудь город');
+        return
+    }
     addNewCity.disabled = true
     addNewCity.value = 'Загрузка...'
     try {
@@ -225,30 +240,34 @@ async function onAdd(e) {
         addNewCity.disabled = false
         addNewCity.value = ''
         if (state.starred.map(_ => _.id).includes(data.id)) return alert('Такой город уже есть!')
-        saveCityToLS(data.id)
+        await api.saveFavorite(data.id)
         state.starred = [...state.starred, weatherMapper(data)]
     } catch (err) {
         state.starred.pop()
         state.starred = [...state.starred]
-        alert('Сайт не найден')
+        alert('Город не найден!')
     }
     addNewCity.disabled = false
     addNewCity.value = ''
 }
 
-function onBtnRemoveClick(id) {
+async function onBtnRemoveClick(id) {
     state.starred = state.starred.filter(_ => _.id !== parseInt(id, 10))
-    removeCityFromLS(id)
+    await api.removeFavorite(id)
 }
 
 /*END-HANDLERS*/
 
 async function main() {
     document.querySelector('#add-city-form').addEventListener('submit', onAdd)
+    const refreshGeoElements = document.getElementsByClassName('refresh-geo');
+    for (const el of refreshGeoElements) {
+        el.onclick = initCurrentPosition;
+    }
     addListener('current', renderMain)
     addListener('starred', renderExtra)
     initCurrentPosition()
-    initFromLocalStorage()
+    loadFavorites()
 }
 
 main()
