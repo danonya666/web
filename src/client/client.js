@@ -105,7 +105,7 @@ let __state__ = {
     starred: []
 }
 
-const state = wrap(__state__)
+let state = wrap(__state__)
 
 let updateListeners = {}
 
@@ -150,7 +150,7 @@ function renderLoader() {
 }
 
 async function loadFavorites() {
-    const {list} = await api.getFavorites()
+    const {list} = await api.getFavorites();
     state.starred = [...state.starred, ...list.map(_ => weatherMapper(_))]
 }
 
@@ -170,12 +170,16 @@ function renderMain() {
     const node = mainCityTemplate.cloneNode(true)
     node.innerHTML = fillTemplate(node.innerHTML, values)
     const nodeImported = document.importNode(node.content, true)
-    importantBlock.appendChild(nodeImported)
+    importantBlock.appendChild(nodeImported);
+    return importantBlock.innerHTML;
 }
 
 function renderExtra() {
     blockWrapper.innerHTML = ""
     state.starred.forEach(loc => {
+        if (!loc.title) {
+            return
+        }
         const values = {
             loading: loc.loading ? renderLoader() : '',
             title: loc.title,
@@ -195,6 +199,7 @@ function renderExtra() {
             onBtnRemoveClick(id)
         })
     })
+    return blockWrapper.innerHTML;
 }
 async function initCurrentPosition() {
     state.current = {
@@ -219,11 +224,12 @@ async function initCurrentPosition() {
         ...weatherMapper(data),
         loading: false
     }
+    return state
 }
 
 async function onAdd(e) {
     e.preventDefault()
-    const val = addNewCity.value;
+    const val = e.target.elements[0].value;
     if (!val) {
         alert('Введите какой-нибудь город');
         return
@@ -245,20 +251,44 @@ async function onAdd(e) {
     } catch (err) {
         state.starred.pop()
         state.starred = [...state.starred]
-        alert('Город не найден!')
+        alert('Ошибка при получении информации')
     }
     addNewCity.disabled = false
     addNewCity.value = ''
 }
 
 async function onBtnRemoveClick(id) {
-    state.starred = state.starred.filter(_ => _.id !== parseInt(id, 10))
-    await api.removeFavorite(id)
+    [...document.querySelectorAll('.city_remove')].forEach(it => {
+        if (id === it.getAttribute('data-id')) {
+            it.disabled = true;
+        }
+    })
+    try {
+        await api.removeFavorite(id)
+        state.starred = state.starred.filter(_ => _.id !== parseInt(id, 10));
+    } catch (e) {
+        [...document.querySelectorAll('.city_remove')].forEach(it => {
+            if (id === it.getAttribute('data-id')) {
+                it.disabled = false;
+            }
+        })
+    }
+
 }
 
 /*END-HANDLERS*/
 
-async function main() {
+/* State management */
+
+const setState = newState => {
+    state = newState
+}
+
+const getState = () => state
+
+/* End State management */
+
+async function client() {
     document.querySelector('#add-city-form').addEventListener('submit', onAdd)
     const refreshGeoElements = document.getElementsByClassName('refresh-geo');
     for (const el of refreshGeoElements) {
@@ -270,4 +300,27 @@ async function main() {
     loadFavorites()
 }
 
-main()
+client()
+
+// module.exports = {
+//     loadFavorites,
+//     initCurrentPosition,
+//     renderExtra,
+//     renderStats,
+//     renderLoader,
+//     weatherMapper,
+//     Api,
+//     getDirection,
+//     fillTemplate,
+//     getCurrentPositionAsync,
+//     wrap,
+//     addListener,
+//     setState,
+//     toObj,
+//     state,
+//     getState,
+//     onAdd,
+//     onBtnRemoveClick,
+// }
+
+
