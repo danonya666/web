@@ -300,27 +300,27 @@ async function client() {
     loadFavorites()
 }
 
-client()
 
-// module.exports = {
-//     loadFavorites,
-//     initCurrentPosition,
-//     renderExtra,
-//     renderStats,
-//     renderLoader,
-//     weatherMapper,
-//     Api,
-//     getDirection,
-//     fillTemplate,
-//     getCurrentPositionAsync,
-//     wrap,
-//     addListener,
-//     setState,
-//     toObj,
-//     state,
-//     getState,
-//     onAdd,
-//     onBtnRemoveClick,
-// }
+module.exports = {
+    loadFavorites,
+    initCurrentPosition,
+    renderExtra,
+    renderStats,
+    renderLoader,
+    weatherMapper,
+    Api,
+    getDirection,
+    fillTemplate,
+    getCurrentPositionAsync,
+    wrap,
+    addListener,
+    setState,
+    toObj,
+    state,
+    getState,
+    onAdd,
+    onBtnRemoveClick,
+}
 
-
+//
+//

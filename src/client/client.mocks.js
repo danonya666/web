@@ -1,14 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body onload="client()">
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
+const html = `
 <div class="main_wrapper">
     <header>
         <h1 class="header_title">Погода здесь</h1>
@@ -57,9 +50,9 @@
                 <li class="mt-2rem">
                     {loading}
                     <div class="city flx">
-                        <button class="city_remove" data-id="{id}">
+                        <div class="city_remove" data-id="{id}">
                             ✖
-                        </button>
+                        </div>
                         <h4>
                             {title}
                         </h4>
@@ -78,7 +71,7 @@
 
         <template id="loading">
             <div class="loading">
-                <img src="./assets/loading.gif" alt="loading..">
+                <img src="../../assets/loading.gif" alt="loading..">
             </div>
         </template>
 
@@ -110,9 +103,25 @@
             </ul>
         </template>
     </main>
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-
-    <script src="src/client/client.js"></script>
 </div>
-</body>
-</html>
+
+`
+const dom = new JSDOM(html)
+
+global["window"] = dom.window
+global["document"] = dom.window.document
+const positions = {
+  coords: {
+    latitude: '12',
+    longitude: '23',
+  }
+}
+
+global["navigator"] = {
+  geolocation:{
+    getCurrentPosition: (res, rej, opts) => res(positions),
+  }
+}
+
+global["alert"] = () => {}
+

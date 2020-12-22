@@ -2,13 +2,31 @@
   "name": "web",
   "version": "1.0.0",
   "dependencies": {
+    "@jest/globals": "^26.6.2",
     "body-parser": "^1.19.0",
+    "commonjs": "^0.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jest": "^26.6.3",
     "mongoose": "^5.11.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "supertest": "^6.0.1"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "axios": "^0.21.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "testURL": "http://localhost/",
+    "setupFiles": [
+      "./src/client/client.mocks.js"
+    ]
   }
 }
