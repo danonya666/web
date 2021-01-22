@@ -106,10 +106,13 @@ const html = `
 </div>
 
 `
-const dom = new JSDOM(html)
+let dom = new JSDOM(html)
 
 global["window"] = dom.window
 global["document"] = dom.window.document
+global.document = {
+  querySelector: dom.window.document.querySelector
+}
 const positions = {
   coords: {
     latitude: '12',
@@ -125,3 +128,21 @@ global["navigator"] = {
 
 global["alert"] = () => {}
 
+
+dom = new JSDOM(html)
+const { window } = dom
+global["window"] = window
+global["document"] = window.document
+global["alert"] = (msg) => {
+  console.log(`ALERT -> "${msg}"`)
+}
+global["navigator"] = {
+  geolocation:{
+    getCurrentPosition: (res, rej, opts) => res({
+      coords: {
+        latitude: '12',
+        longitude: '23',
+      }
+    }),
+  }
+}

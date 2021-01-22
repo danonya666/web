@@ -86,9 +86,9 @@ favoritesRouter.get('/', async (req,res) => {
     let items = await Favorite.find({})
     if(items.length === 0) return res.json([])
     try {
-        if (items.length > 19) {
-            items = items.slice(20);
-        }
+        // if (items.length > 19) {
+        //     items = items.slice(20);
+        // }
         const { data } = await $api.weatherByIds(items.map(({openWeatherId}) => openWeatherId));
         return res.json(data);
     } catch(err) {

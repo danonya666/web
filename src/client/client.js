@@ -79,7 +79,8 @@ class Api {
 
 const getCurrentPositionAsync =
     () => new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: true}));
+        enableHighAccuracy: true
+    }));
 
 const wrap = obj => {
     return new Proxy(obj, {
@@ -229,13 +230,13 @@ async function initCurrentPosition() {
 
 async function onAdd(e) {
     e.preventDefault()
-    const val = e.target.elements[0].value;
+    const val = addNewCity?.value ?? "Jakarta";
     if (!val) {
         alert('Введите какой-нибудь город');
         return
     }
-    addNewCity.disabled = true
-    addNewCity.value = 'Загрузка...'
+    // addNewCity.disabled = true
+    // addNewCity.value = 'Загрузка...'
     try {
         state.starred = [...state.starred, {loading: true}]
         const data = await api.weatherByString(val)
@@ -243,8 +244,8 @@ async function onAdd(e) {
             throw new Error('not found')
         state.starred.pop()
         state.starred = [...state.starred]
-        addNewCity.disabled = false
-        addNewCity.value = ''
+        // addNewCity.disabled = false
+        // addNewCity.value = ''
         if (state.starred.map(_ => _.id).includes(data.id)) return alert('Такой город уже есть!')
         await api.saveFavorite(data.id)
         state.starred = [...state.starred, weatherMapper(data)]
@@ -253,8 +254,8 @@ async function onAdd(e) {
         state.starred = [...state.starred]
         alert('Ошибка при получении информации')
     }
-    addNewCity.disabled = false
-    addNewCity.value = ''
+    // addNewCity.disabled = false
+    // addNewCity.value = ''
 }
 
 async function onBtnRemoveClick(id) {
@@ -267,6 +268,7 @@ async function onBtnRemoveClick(id) {
         await api.removeFavorite(id)
         state.starred = state.starred.filter(_ => _.id !== parseInt(id, 10));
     } catch (e) {
+        console.log(e);
         [...document.querySelectorAll('.city_remove')].forEach(it => {
             if (id === it.getAttribute('data-id')) {
                 it.disabled = false;
@@ -301,26 +303,26 @@ async function client() {
 }
 
 
-module.exports = {
-    loadFavorites,
-    initCurrentPosition,
-    renderExtra,
-    renderStats,
-    renderLoader,
-    weatherMapper,
-    Api,
-    getDirection,
-    fillTemplate,
-    getCurrentPositionAsync,
-    wrap,
-    addListener,
-    setState,
-    toObj,
-    state,
-    getState,
-    onAdd,
-    onBtnRemoveClick,
-}
+// module.exports = {
+//     loadFavorites,
+//     initCurrentPosition,
+//     renderExtra,
+//     renderStats,
+//     renderLoader,
+//     weatherMapper,
+//     Api,
+//     getDirection,
+//     fillTemplate,
+//     getCurrentPositionAsync,
+//     wrap,
+//     addListener,
+//     setState,
+//     toObj,
+//     state,
+//     getState,
+//     onAdd,
+//     onBtnRemoveClick,
+// }
 
 //
 //
